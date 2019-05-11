@@ -159,6 +159,15 @@ public abstract class SharedPref {
     }
     // endregion
 
+    protected final boolean containsKey(@NonNull String key) {
+        lock.readLock().lock();
+        try {
+            return cache.containsKey(key) || preferences.contains(key);
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
     // region Put
     protected final boolean putBoolean(@NonNull String key, boolean value) {
 
